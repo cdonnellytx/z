@@ -585,40 +585,37 @@ function ConvertTo-DirectoryEntry {
         [String]$line
     )
 
+    Begin {
+        $now = Get-Date
+        $ci = [Globalization.CultureInfo]::InvariantCulture
+    }
+
     Process {
 
-        $null = .{
+        $pathValue = $line.Substring(25)
 
-            $pathValue = $line.Substring(25)
+        try {
+            $fileName = [System.IO.Path]::GetFileName($pathValue);
 
-            try {
-                $fileName = [System.IO.Path]::GetFileName($pathValue);
-                
-                # GetFileName() does not work with registry paths
-                if ($fileName -eq '') {
-                    $lastPathSeparator = $pathValue.LastIndexOf('\');
-                    if ($lastPathSeparator -ge 0) {
-                        $pathValue = $pathValue.TrimEnd('\');
-                        $fileName = $pathValue.Substring( + 1);
-                    }
+            # GetFileName() does not work with registry paths
+            if ($fileName -eq '') {
+                $lastPathSeparator = $pathValue.LastIndexOf('\');
+                if ($lastPathSeparator -ge 0) {
+                    $pathValue = $pathValue.TrimEnd('\');
+                    $fileName = $pathValue.Substring( + 1);
                 }
-            } catch [System.ArgumentException] { }
+            }
+        } catch [System.ArgumentException] { }
 
-            $time = [long]::Parse($line.Substring(7, 18), [Globalization.CultureInfo]::InvariantCulture)
-        }
+        $time = [long]::Parse($line.Substring(7, 18), $ci)
 
         @{
-          Rank=GetRankFromLine $line;
-          Time=$time;
-          Path=@{ Name = $fileName; FullName = $pathValue };
-          Age=(Get-Date).Subtract((New-Object System.DateTime -ArgumentList $time)).TotalSeconds;
+          Rank = [double]::Parse($line.Substring(0, 7), $ci)
+          Time = $time;
+          Path = @{ Name = $fileName; FullName = $pathValue };
+          Age  = $now.Subtract((New-Object System.DateTime -ArgumentList $time)).TotalSeconds;
         }
     }
-}
-
-function GetRankFromLine([String]$line) {
-    $null = .{ $rankStr = $line.Substring(0, 7) }
-    [double]::Parse($rankStr, [Globalization.CultureInfo]::InvariantCulture)
 }
 
 function Get-MostRecentDirectoryEntries {
