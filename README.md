@@ -1,3 +1,5 @@
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/C0C8K83RC)
+
 # z
 
 z lets you quickly navigate the file system in PowerShell based on your `cd` command history. It's a port of [the z bash shell script.](README). Install it from the [official PowerShell gallery](https://www.powershellgallery.com/packages/z/).
