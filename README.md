@@ -1,4 +1,9 @@
+---
+
+Maintaining software with limited hours in the day can be a challenge and I've had to turn down many feature requests over the years. Boost my motivation and buy me a coffee :-D
+
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/C0C8K83RC)
+---
 
 # z
 
