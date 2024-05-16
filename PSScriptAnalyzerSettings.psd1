@@ -44,6 +44,10 @@
                 'core-6.1.0-linux',
                 'core-6.1.0-macos'
             )
+
+            ignore = @(
+                'Register-ArgumentCompleter' # 5.0 and later
+            )
         }
     }
 }
